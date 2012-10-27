@@ -23,17 +23,14 @@
  * PHP version 5
  * @copyright  Felix Peters 2011 
  * @author     Felix Peters - Wichteldesign 
- * @package    wd 
+ * @package    wd_logs 
  * @license    LGPL 
  * @filesource
  */
-
 
 /**
  * Back end modules
  */
 $GLOBALS['TL_LANG']['MOD']['logs'] = array('Logfiles', 'Show the Logfiles');
-
-
 
 ?>

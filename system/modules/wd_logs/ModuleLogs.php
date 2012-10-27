@@ -23,7 +23,7 @@
  * PHP version 5
  * @copyright  Felix Peters 2011
  * @author     Felix Peters - Wichteldesign
- * @package    wd
+ * @package    wd_logs
  * @license    LGPL
  * @filesource
  */
@@ -37,7 +37,6 @@
  */
 class ModuleLogs extends BackendModule
 {
-
     /**
      * Template
      * @var string
@@ -50,103 +49,43 @@ class ModuleLogs extends BackendModule
     protected function compile()
     {
 
-        $strErrorFile = TL_ROOT . '/system/logs/error.log';
-        $strMailFile = TL_ROOT . '/system/logs/email.log';
-
-        $this->Template->errorHeadline = $GLOBALS['TL_LANG']['MSC']['errorLog'];
-        $this->Template->emailHeadline = $GLOBALS['TL_LANG']['MSC']['emailLog'];
-
-        $arrErrorLogRaw = $this->read_file($strErrorFile, 15);
-        $arrEmailLogRaw = $this->read_file($strMailFile, 20);
-
-
-
-        if (count($arrErrorLogRaw) > 0) {
-            foreach ($arrErrorLogRaw as $k => $strLog) {
-                $strDate = trim(substr($strLog, 1, 20));
-                $strDay = substr($strDate, 0, 11);
-
-
-
-                if (strpos($strLog, 'PHP Fatal error')) {
-                    $arrErrorLog[$strDay][$k]['class'] = 'tl_red';
-                }
-
-                $arrErrorLog[$strDay][$k]['text'] = substr($strLog, 25);
-                $arrErrorLog[$strDay][$k]['datim'] = substr($strDate, 0, 20);
-            }
-            $this->Template->errorLog = $arrErrorLog;
-        }
-
-
-
-        if (count($arrEmailLogRaw) > 0) {
-            foreach ($arrEmailLogRaw as $k => $strLog) {
-                $strDate = trim(substr($strLog, 1, 20));
-                $strDay = substr($strDate, 0, 11);
-
-                if (strpos($strLog, 'PHP Fatal error')) {
-                    $arrEmailLog[$strDay][$k]['class'] = 'tl_red';
-                }
-
-                $arrEmailLog[$strDay][$k]['text'] = substr($strLog, 22);
-                $arrEmailLog[$strDay][$k]['datim'] = substr($strDate, 0, 20);
-            }
-            $this->Template->emailLog = $arrEmailLog;
-        }
-
-
-        /*
-        if (file_exists(TL_ROOT.'/system/logs/error.log')) {
-            $errorLogFile = fopen(TL_ROOT.'/system/logs/error.log', 'r');
-            $i = 0;
-            while (!feof($errorLogFile)) {
-                $arrErrorLogRaw[] = fgets($errorLogFile, 1024);
-            }
-            fclose($errorLogFile);
-
-            $arrErrorLogRaw = array_reverse(array_slice($arrErrorLogRaw, -16, 15));
-
-            foreach ($arrErrorLogRaw as $k => $strLog) {
-                $strDate = trim(substr($strLog, 1, 20));
-                $strDay = substr($strDate, 0, 11);
-
-                if (strpos($strLog, 'PHP Fatal error')) {
-                    $arrErrorLog[$strDay][$k]['class'] = 'tl_red';
-                }
-
-                $arrErrorLog[$strDay][$k]['text'] = substr($strLog, 22);
-                $arrErrorLog[$strDay][$k]['datim'] = substr($strDate, 0, 20);
-            }
-            $this->Template->errorLog = $arrErrorLog;
-        }
-
-        if (file_exists(TL_ROOT.'/system/logs/email.log')) {
-            $emailLogFile = fopen(TL_ROOT.'/system/logs/email.log', 'r');
-            $i = 0;
-            while (!feof($emailLogFile)) {
-                $arrEmailLogRaw[] = fgets($emailLogFile, 1024);
-            }
-            fclose($emailLogFile);
-
-            $arrEmailLogRaw = array_slice($arrEmailLogRaw, -16, 15);
-
-            foreach ($arrEmailLogRaw as $k => $strLog) {
-                $strDate = trim(substr($strLog, 1, 20));
-                $strDay = substr($strDate, 0, 11);
-
-                if (strpos($strLog, 'PHP Fatal error')) {
-                    $arrEmailLog[$strDay][$k]['class'] = 'tl_red';
-                }
-
-                $arrEmailLog[$strDay][$k]['text'] = substr($strLog, 22);
-                $arrEmailLog[$strDay][$k]['datim'] = substr($strDate, 0, 20);
-            }
-            $this->Template->emailLog = array_reverse($arrEmailLog);
-        }
-
-        */
-
+        $config = array(
+			"error" => array ("logfile"  => "/system/logs/error.log",
+							  "headline" => $GLOBALS['TL_LANG']['MSC']['errorLog'],
+							  "rows"     => 15
+			),
+			"email" => array ("logfile"  => "/system/logs/email.log",
+							  "headline" => $GLOBALS['TL_LANG']['MSC']['emailLog'],
+							  "rows"     => 20
+			),
+			"konfigurator" => array ("logfile"  => "/system/logs/konfigurator.log",
+									 "headline" => $GLOBALS['TL_LANG']['MSC']['konfiguratorLog'],
+									 "rows"     => 30
+			)
+		);
+		
+		$logfiles = array();
+		foreach ($GLOBALS["TL_LOGFILES"] as $key=>$logfile) {
+			$arrLog = null;
+			if (file_exists(TL_ROOT . $logfile["logfile"])) {
+				$arrLogFileRaw = $this->read_file(TL_ROOT . $logfile["logfile"], $logfile["rows"]);
+				if (count($arrLogFileRaw) > 0) {
+					foreach ($arrLogFileRaw as $k => $strLog) {
+						$strDate = trim(substr($strLog, 1, 20));
+						$strDay = substr($strDate, 0, 11);
+						
+						if (strpos($strLog, 'PHP Fatal error')) {
+							$arrLog[$strDay][$k]['class'] = 'tl_red';
+						}
+						
+						$arrLog[$strDay][$k]['text'] = substr($strLog, 23);
+						$arrLog[$strDay][$k]['datim'] = substr($strDate, 0, 22);
+					}
+				}
+			}
+			$logfiles[$key] = array("headline" => $logfile["headline"], "log" => $arrLog);
+		}
+		$this->Template->logfiles = $logfiles;
     }
 
     /**
@@ -158,8 +97,7 @@ class ModuleLogs extends BackendModule
      * @return array
      */
 
-    private function read_file($file, $lines)
-    {
+    private function read_file($file, $lines) {
         //global $fsize;
         $handle = fopen($file, "r");
         $linecounter = $lines;

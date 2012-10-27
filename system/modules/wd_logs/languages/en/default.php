@@ -23,17 +23,16 @@
  * PHP version 5
  * @copyright  Felix Peters 2011 
  * @author     Felix Peters - Wichteldesign 
- * @package    Language
+ * @package    wd_logs
  * @license    LGPL 
  * @filesource
  */
 
-
 /**
  * Miscellaneous
  */
-$GLOBALS['TL_LANG']['MSC']['errorLog'] = 'Error Log';
-$GLOBALS['TL_LANG']['MSC']['emailLog'] = 'E-Mail Log';
-$GLOBALS['TL_LANG']['MSC']['noFile'] = 'No Log-File available';
+$GLOBALS['TL_LANG']['MSC']['errorLog'] = 'Error log';
+$GLOBALS['TL_LANG']['MSC']['emailLog'] = 'Email log';
+$GLOBALS['TL_LANG']['MSC']['noFile']   = 'No Log-File available';
 
 ?>
