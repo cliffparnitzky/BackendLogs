@@ -6,11 +6,7 @@ Adding configuration
 ====================
 
 ## Add to `system/config/localconfig.php`
-	// Add additional logfile config
-	$GLOBALS["TL_LOGFILES"]["mylog"] = array ("logfile"  => "/system/logs/mylog.log",
-											  "headline" => &$GLOBALS['TL_LANG']['MSC']['mylogLangKey'],
-											  "rows"     => 30
-											 );
+	$GLOBALS['TL_LOGFILES']['mylog'] = array ('logfile' => '/system/logs/mylog.log', 'headline' => &$GLOBALS['TL_LANG']['MSC']['mylogLangKey'], 'rows' => 30);
 
 ## Add to `system/config/langconfig.php`
 	// Add additional logfile config translations
