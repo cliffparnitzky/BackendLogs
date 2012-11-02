@@ -34,10 +34,10 @@
 $logs = array(
 	'logs' => array(
 		'callback' => 'ModuleLogs',
-		'icon'	 => 'system/modules/wd_logs/html/page_white_text.png'
+		'icon'	 => 'system/modules/BackendLogs/html/page_white_text.png'
 	)
 );
-array_insert($GLOBALS['BE_MOD']['development'], 3, $logs);
+array_insert($GLOBALS['BE_MOD']['logfiles'], 3, $logs);
 
 /**
  * Logfile configuration

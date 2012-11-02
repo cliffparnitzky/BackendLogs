@@ -12,6 +12,6 @@ Adding configuration
 	// Add additional logfile config translations
 	if ($GLOBALS['TL_LANGUAGE'] == 'de') {
 		$GLOBALS['TL_LANG']['MSC']['mylogLangKey'] = "Mein Logfile";
-	} elseif ($GLOBALS['TL_LANGUAGE'] == 'fr') {
+	} elseif ($GLOBALS['TL_LANGUAGE'] == 'en') {
 		$GLOBALS['TL_LANG']['MSC']['mylogLangKey'] = "My logfile";
 	}
