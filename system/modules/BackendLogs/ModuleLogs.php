@@ -35,35 +35,18 @@
  * @author     Felix Peters - Wichteldesign
  * @package    Controller
  */
-class ModuleLogs extends BackendModule
-{
-    /**
-     * Template
-     * @var string
-     */
-    protected $strTemplate = 'mod_logs';
+class ModuleLogs extends BackendModule {
 
-    /**
-     * Generate module
-     */
-    protected function compile()
-    {
+	/**
+	 * Template
+	 * @var string
+	 */
+	protected $strTemplate = 'mod_logs';
 
-        $config = array(
-			"error" => array ("logfile"  => "/system/logs/error.log",
-							  "headline" => $GLOBALS['TL_LANG']['MSC']['errorLog'],
-							  "rows"     => 15
-			),
-			"email" => array ("logfile"  => "/system/logs/email.log",
-							  "headline" => $GLOBALS['TL_LANG']['MSC']['emailLog'],
-							  "rows"     => 20
-			),
-			"konfigurator" => array ("logfile"  => "/system/logs/konfigurator.log",
-									 "headline" => $GLOBALS['TL_LANG']['MSC']['konfiguratorLog'],
-									 "rows"     => 30
-			)
-		);
-		
+	/**
+	 * Generate module
+	 */
+	protected function compile() {
 		$logfiles = array();
 		foreach ($GLOBALS["TL_LOGFILES"] as $key=>$logfile) {
 			$arrLog = null;
@@ -78,7 +61,7 @@ class ModuleLogs extends BackendModule
 							$arrLog[$strDay][$k]['class'] = 'tl_red';
 						}
 						
-						$arrLog[$strDay][$k]['text'] = substr($strLog, 23);
+						$arrLog[$strDay][$k]['text'] = specialchars(substr($strLog, 23));
 						$arrLog[$strDay][$k]['datim'] = substr($strDate, 0, 22);
 					}
 				}
@@ -86,44 +69,43 @@ class ModuleLogs extends BackendModule
 			$logfiles[$key] = array("headline" => $logfile["headline"], "log" => $arrLog);
 		}
 		$this->Template->logfiles = $logfiles;
-    }
+	}
 
-    /**
-     * Reads the File
-     * Based on http://tekkie.flashbit.net/php/tail-functionality-in-php#
-     *
-     * @param $file
-     * @param $lines
-     * @return array
-     */
-
-    private function read_file($file, $lines) {
-        //global $fsize;
-        $handle = fopen($file, "r");
-        $linecounter = $lines;
-        $pos = -2;
-        $beginning = false;
-        $text = array();
-        while ($linecounter > 0) {
-            $t = " ";
-            while ($t != "\n") {
-                if (fseek($handle, $pos, SEEK_END) == -1) {
-                    $beginning = true;
-                    break;
-                }
-                $t = fgetc($handle);
-                $pos--;
-            }
-            $linecounter--;
-            if ($beginning) {
-                rewind($handle);
-            }
-            $text[$lines - $linecounter - 1] = fgets($handle);
-            if ($beginning) break;
-        }
-        fclose($handle);
-        return array_reverse($text);
-    }
+	/**
+	 * Reads the File
+	 * Based on http://tekkie.flashbit.net/php/tail-functionality-in-php#
+	 *
+	 * @param $file
+	 * @param $lines
+	 * @return array
+	 */
+	private function read_file($file, $lines) {
+		//global $fsize;
+		$handle = fopen($file, "r");
+		$linecounter = $lines;
+		$pos = -2;
+		$beginning = false;
+		$text = array();
+		while ($linecounter > 0) {
+			$t = " ";
+			while ($t != "\n") {
+				if (fseek($handle, $pos, SEEK_END) == -1) {
+					$beginning = true;
+					break;
+				}
+				$t = fgetc($handle);
+				$pos--;
+			}
+			$linecounter--;
+			if ($beginning) {
+					rewind($handle);
+			}
+			$text[$lines - $linecounter - 1] = fgets($handle);
+			if ($beginning) break;
+		}
+		fclose($handle);
+		return array_reverse($text);
+	}
 }
 
 ?>

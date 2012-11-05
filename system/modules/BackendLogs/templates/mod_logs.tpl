@@ -17,8 +17,8 @@
 				<?php foreach ($logs as $log) : ?>
 				<tr>
 					<td class="tl_file_list" style="">
-						<span style="color:#b3b3b3; padding-right:3px;">[<?php echo $log['datim']; ?>]</span>
-						<span class="<?php echo $log['class']; ?>" ><?php echo $log['text']; ?></span>
+						<span style="color: #b3b3b3; padding-right: 3px;">[<?php echo $log['datim']; ?>]</span>
+						<span<?php if ($log['class']): ?> class="<?php echo $log['class']; ?>"<?php endif; ?>><?php echo $log['text']; ?></span>
 					</td>
 				</tr>
 				<?php endforeach; ?>
