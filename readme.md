@@ -15,3 +15,12 @@ Adding configuration
 	} elseif ($GLOBALS['TL_LANGUAGE'] == 'en') {
 		$GLOBALS['TL_LANG']['MSC']['mylogLangKey'] = "My logfile";
 	}
+	
+	
+
+
+
+Dependency
+----------
+
+- There are no dependencies to other extensions, that have to be installed.
