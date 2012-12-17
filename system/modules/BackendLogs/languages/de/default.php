@@ -21,18 +21,15 @@
  * Software Foundation website at <http://www.gnu.org/licenses/>.
  *
  * PHP version 5
- * @copyright  Felix Peters 2011 
- * @author     Felix Peters - Wichteldesign 
- * @package    wd_logs
- * @license    LGPL 
- * @filesource
+ * @copyright  Cliff Parnitzky 2012
+ * @author     Cliff Parnitzky
+ * @package    BackendLogs
+ * @license    LGPL
  */
 
 /**
  * Miscellaneous
  */
-$GLOBALS['TL_LANG']['MSC']['errorLog'] = 'Error Log';
-$GLOBALS['TL_LANG']['MSC']['emailLog'] = 'E-Mail Log';
-$GLOBALS['TL_LANG']['MSC']['noFile']   = 'Keine Log-Datei vorhanden';
+$GLOBALS['TL_LANG']['MSC']['logfileMissing'] = 'Keine Log-Datei vorhanden';
 
 ?>

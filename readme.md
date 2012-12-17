@@ -6,18 +6,15 @@ Adding configuration
 ====================
 
 ## Add to `system/config/localconfig.php`
-	$GLOBALS['TL_LOGFILES']['mylog'] = array ('logfile' => '/system/logs/mylog.log', 'headline' => &$GLOBALS['TL_LANG']['MSC']['mylogLangKey'], 'rows' => 30);
+	$GLOBALS['TL_LOGFILES']['mylog'] = array ('logfile' => '/system/logs/mylog.log', 'rows' => 30);
 
 ## Add to `system/config/langconfig.php`
 	// Add additional logfile config translations
 	if ($GLOBALS['TL_LANGUAGE'] == 'de') {
-		$GLOBALS['TL_LANG']['MSC']['mylogLangKey'] = "Mein Logfile";
+		$GLOBALS['TL_LANG']['MOD']['mylogLangKey'] = "Mein Logfile";
 	} elseif ($GLOBALS['TL_LANGUAGE'] == 'en') {
-		$GLOBALS['TL_LANG']['MSC']['mylogLangKey'] = "My logfile";
+		$GLOBALS['TL_LANG']['MOD']['mylogLangKey'] = "My logfile";
 	}
-	
-	
-
 
 
 Dependency

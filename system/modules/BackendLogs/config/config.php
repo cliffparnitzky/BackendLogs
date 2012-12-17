@@ -21,37 +21,28 @@
  * Software Foundation website at <http://www.gnu.org/licenses/>.
  *
  * PHP version 5
- * @copyright  Felix Peters 2011 
- * @author     Felix Peters - Wichteldesign 
- * @package    wd_logs 
- * @license    LGPL 
- * @filesource
+ * @copyright  Cliff Parnitzky 2012
+ * @author     Cliff Parnitzky
+ * @package    BackendLogs
+ * @license    LGPL
  */
-
-/**
- * Backend modules
- */
-$logs = array(
-	'logs' => array(
-		'callback' => 'ModuleLogs',
-		'icon'	 => 'system/modules/BackendLogs/html/page_white_text.png'
-	)
-);
-array_insert($GLOBALS['BE_MOD']['logfiles'], 3, $logs);
 
 /**
  * Logfile configuration
  */
-$GLOBALS["TL_LOGFILES"] = array(
-	"error" => array ("logfile"  => "/system/logs/error.log",
-					  "headline" => &$GLOBALS['TL_LANG']['MSC']['errorLog'],
-					  "rows"     => 15
-	),
-	"email" => array ("logfile"  => "/system/logs/email.log",
-					  "headline" => &$GLOBALS['TL_LANG']['MSC']['emailLog'],
-					  "rows"     => 20
-	)
-);
+$GLOBALS['TL_LOGFILES']['logfileError'] = array ('logfile' => '/system/logs/error.log', 'rows' => 30);
+$GLOBALS['TL_LOGFILES']['logfileEmail'] = array ('logfile' => '/system/logs/email.log', 'rows' => 30);
+// add more of these configs to localconfig.php (will be sorted by key)
 
+/**
+ * Backend modules
+ */
+foreach ($GLOBALS["TL_LOGFILES"] as $key=>$config) {
+	$GLOBALS['BE_MOD']['logfiles'][$key] = array(
+		'callback' => 'ModuleLogs',
+		'icon'	 => 'system/modules/BackendLogs/html/logfile.png'
+	);
+}
+ksort($GLOBALS['BE_MOD']['logfiles']);
 
 ?>

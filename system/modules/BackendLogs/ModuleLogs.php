@@ -21,18 +21,17 @@
  * Software Foundation website at <http://www.gnu.org/licenses/>.
  *
  * PHP version 5
- * @copyright  Felix Peters 2011
- * @author     Felix Peters - Wichteldesign
- * @package    wd_logs
+ * @copyright  Cliff Parnitzky 2012
+ * @author     Cliff Parnitzky
+ * @package    BackendLogs
  * @license    LGPL
- * @filesource
  */
 
 /**
  * Class ModuleLogs
  *
- * @copyright  Felix Peters 2011
- * @author     Felix Peters - Wichteldesign
+ * @copyright  Cliff Parnitzky 2012
+ * @author     Cliff Parnitzky
  * @package    Controller
  */
 class ModuleLogs extends BackendModule {
@@ -47,28 +46,27 @@ class ModuleLogs extends BackendModule {
 	 * Generate module
 	 */
 	protected function compile() {
-		$logfiles = array();
-		foreach ($GLOBALS["TL_LOGFILES"] as $key=>$logfile) {
-			$arrLog = null;
-			if (file_exists(TL_ROOT . $logfile["logfile"])) {
-				$arrLogFileRaw = $this->read_file(TL_ROOT . $logfile["logfile"], $logfile["rows"]);
-				if (count($arrLogFileRaw) > 0) {
-					foreach ($arrLogFileRaw as $k => $strLog) {
-						$strDate = trim(substr($strLog, 1, 20));
-						$strDay = substr($strDate, 0, 11);
-						
-						if (strpos($strLog, 'PHP Fatal error')) {
-							$arrLog[$strDay][$k]['class'] = 'tl_red';
-						}
-						
-						$arrLog[$strDay][$k]['text'] = specialchars(substr($strLog, 23));
-						$arrLog[$strDay][$k]['datim'] = substr($strDate, 0, 22);
+		$key = $this->Input->get("do");
+		$config = $GLOBALS["TL_LOGFILES"][$key];
+		$arrLog = null;
+		if (file_exists(TL_ROOT . $config["logfile"])) {
+			$arrLogFileRaw = $this->readFile(TL_ROOT . $config["logfile"], $config["rows"]);
+			if (count($arrLogFileRaw) > 0) {
+				foreach ($arrLogFileRaw as $k => $strLog) {
+					$strDate = trim(substr($strLog, 1, 20));
+					$strDay = substr($strDate, 0, 11);
+					
+					if (strpos($strLog, 'PHP Fatal error')) {
+						$arrLog[$strDay][$k]['class'] = 'tl_red';
 					}
+					
+					$arrLog[$strDay][$k]['text'] = specialchars(substr($strLog, 23));
+					$arrLog[$strDay][$k]['datim'] = substr($strDate, 0, 22);
 				}
 			}
-			$logfiles[$key] = array("headline" => $logfile["headline"], "log" => $arrLog);
 		}
-		$this->Template->logfiles = $logfiles;
+
+		$this->Template->arrLog = $arrLog;
 	}
 
 	/**
@@ -79,8 +77,7 @@ class ModuleLogs extends BackendModule {
 	 * @param $lines
 	 * @return array
 	 */
-	private function read_file($file, $lines) {
-		//global $fsize;
+	private function readFile($file, $lines) {
 		$handle = fopen($file, "r");
 		$linecounter = $lines;
 		$pos = -2;
@@ -104,7 +101,7 @@ class ModuleLogs extends BackendModule {
 			if ($beginning) break;
 		}
 		fclose($handle);
-		return array_reverse($text);
+		return $text;
 	}
 }
 

@@ -21,16 +21,22 @@
  * Software Foundation website at <http://www.gnu.org/licenses/>.
  *
  * PHP version 5
- * @copyright  Felix Peters 2011 
- * @author     Felix Peters - Wichteldesign 
- * @package    wd_logs 
- * @license    LGPL 
- * @filesource
+ * @copyright  Cliff Parnitzky 2012
+ * @author     Cliff Parnitzky
+ * @package    BackendLogs
+ * @license    LGPL
  */
 
 /**
  * Back end modules
  */
-$GLOBALS['TL_LANG']['MOD']['logs'] = array('Logdateien', 'Logdateien anzeigen');
+$GLOBALS['TL_LANG']['MOD']['logfiles']     = 'Logdateien';
+$GLOBALS['TL_LANG']['MOD']['logfileError'] = array('Error Log', 'Zeigt die Logdatei <i>error.log</i>.');
+$GLOBALS['TL_LANG']['MOD']['logfileEmail'] = array('E-Mail Log', 'Zeigt die Logdatei <i>email.log</i>');
+
+/**
+ * Define name and tooltip for preferences (inactive modules)
+ */
+$GLOBALS['TL_LANG']['MOD']['BackendLogs'] = array('Logdateien anzeigen', 'Zeigt Logdateien im Backend an.');
 
 ?>
