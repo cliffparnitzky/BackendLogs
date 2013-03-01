@@ -1,5 +1,5 @@
-Contao BackendLogs Extension
-============================
+Contao Extension: BackendLogs
+=============================
 
 Provides a special functionality to display error.log, email.log and other configured logfiles in Contao backend.
 
@@ -21,7 +21,7 @@ Compatibility
 -------------
 
 - min. version: Contao 2.9.5
-- max. version: Contao 2.11.6
+- max. version: Contao 2.11.x
 
 
 Dependency
