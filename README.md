@@ -1,3 +1,7 @@
+[![Latest Version on Packagist](http://img.shields.io/packagist/v/cliffparnitzky/backend-logs.svg?style=flat)](https://packagist.org/packages/cliffparnitzky/backend-logs)
+[![Installations via composer per month](http://img.shields.io/packagist/dm/cliffparnitzky/backend-logs.svg?style=flat)](https://packagist.org/packages/cliffparnitzky/backend-logs)
+[![Installations via composer total](http://img.shields.io/packagist/dt/cliffparnitzky/backend-logs.svg?style=flat)](https://packagist.org/packages/cliffparnitzky/backend-logs)
+
 Contao Extension: BackendLogs
 =============================
 
@@ -7,8 +11,9 @@ Provides a special functionality to display error.log, email.log and other confi
 Installation
 ------------
 
-The extension is not published in contao extension repository.
-Install it manually.
+Install the extension via composer: [cliffparnitzky/backend-logs](https://packagist.org/packages/cliffparnitzky/backend-logs).
+
+If you prefer to install it manually, download the latest release here: https://github.com/cliffparnitzky/BackendLogs/releases
 
 
 Tracker
@@ -20,8 +25,8 @@ https://github.com/cliffparnitzky/BackendLogs/issues
 Compatibility
 -------------
 
-- min. version: Contao 2.9.5
-- max. version: Contao 2.11.x
+- min. Contao version: >= 3.2.0
+- max. Contao version: <  3.5.0
 
 
 Dependency
@@ -31,12 +36,12 @@ Dependency
 
 
 Additional configuration
-========================
+------------------------
 
-## Add to `system/config/localconfig.php`
+Add to `system/config/localconfig.php`
 	$GLOBALS['TL_LOGFILES']['logfileMylog'] = array ('logfile' => '/system/logs/mylog.log', 'rows' => 30);
 
-## Add to `system/config/langconfig.php`
+Add to `system/config/langconfig.php`
 	// Add additional logfile config translations
 	if ($GLOBALS['TL_LANGUAGE'] == 'de') {
 		$GLOBALS['TL_LANG']['MOD']['logfileMylog'] = "Mein Logfile";

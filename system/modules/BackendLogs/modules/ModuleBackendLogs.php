@@ -1,8 +1,8 @@
-<?php if (!defined('TL_ROOT')) die('You cannot access this file directly!');
+<?php
 
 /**
  * Contao Open Source CMS
- * Copyright (C) 2005-2011 Leo Feyer
+ * Copyright (C) 2005-2015 Leo Feyer
  *
  * Formerly known as TYPOlight Open Source CMS.
  *
@@ -21,26 +21,31 @@
  * Software Foundation website at <http://www.gnu.org/licenses/>.
  *
  * PHP version 5
- * @copyright  Cliff Parnitzky 2012
+ * @copyright  Cliff Parnitzky 2012-2015
  * @author     Cliff Parnitzky
  * @package    BackendLogs
  * @license    LGPL
  */
+ 
+/**
+ * Run in a custom namespace, so the class can be replaced
+ */
+namespace BackendLogs;
 
 /**
- * Class ModuleLogs
+ * Class ModuleBackendLogs
  *
  * @copyright  Cliff Parnitzky 2012
  * @author     Cliff Parnitzky
  * @package    Controller
  */
-class ModuleLogs extends BackendModule {
+class ModuleBackendLogs extends \BackendModule {
 
 	/**
 	 * Template
 	 * @var string
 	 */
-	protected $strTemplate = 'mod_logs';
+	protected $strTemplate = 'be_backend-logs';
 
 	/**
 	 * Generate module
@@ -52,16 +57,43 @@ class ModuleLogs extends BackendModule {
 		if (file_exists(TL_ROOT . $config["logfile"])) {
 			$arrLogFileRaw = $this->readFile(TL_ROOT . $config["logfile"], $config["rows"]);
 			if (count($arrLogFileRaw) > 0) {
+				$prevText = '';
+				$day = '';
+				$rowCount = 0;
 				foreach ($arrLogFileRaw as $k => $strLog) {
-					$strDate = trim(substr($strLog, 1, 20));
-					$strDay = substr($strDate, 0, 11);
-					
-					if (strpos($strLog, 'PHP Fatal error')) {
-						$arrLog[$strDay][$k]['class'] = 'tl_red';
+					if (strpos($strLog, '#') === 0) {
+						// it is a comment row
+						continue;
 					}
-					
-					$arrLog[$strDay][$k]['text'] = specialchars(substr($strLog, 23));
-					$arrLog[$strDay][$k]['datim'] = substr($strDate, 0, 22);
+					else if (strpos($strLog, '[') === 0) {
+						// it is a date row
+						
+						$strDate = trim(substr($strLog, 1, strpos($strLog, ']')));
+						$date = date_create_from_format('d-M-Y H:i:s', substr($strDate, 0, 20));
+						
+						if ($date != null) {
+							$day = $date->format('d.m.Y');
+							$datim = $date->format('d.m.Y H:i:s');
+							
+							$rowCount++;
+							
+							$arrLog[$day][$rowCount]['datim'] = $datim;
+							
+							$text = specialchars(trim(substr($strLog, strpos($strLog, ']') + 1)));
+							if (strlen($text) == 0) {
+								$text = $prevText;
+							}
+							$arrLog[$day][$rowCount]['text'] = $text;
+							
+							if (strpos($text, 'PHP Fatal error') === 0) {
+								$arrLog[$day][$rowCount]['class'] = 'tl_red';
+							}
+						}
+					}
+					else {
+						// it is a text row
+						$prevText = specialchars(trim($strLog));
+					}
 				}
 			}
 		}
@@ -95,7 +127,7 @@ class ModuleLogs extends BackendModule {
 			}
 			$linecounter--;
 			if ($beginning) {
-					rewind($handle);
+				rewind($handle);
 			}
 			$text[$lines - $linecounter - 1] = fgets($handle);
 			if ($beginning) break;

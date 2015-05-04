@@ -1,8 +1,8 @@
-<?php if (!defined('TL_ROOT')) die('You cannot access this file directly!');
+<?php
 
 /**
  * Contao Open Source CMS
- * Copyright (C) 2005-2011 Leo Feyer
+ * Copyright (C) 2005-2015 Leo Feyer
  *
  * Formerly known as TYPOlight Open Source CMS.
  *
@@ -21,7 +21,7 @@
  * Software Foundation website at <http://www.gnu.org/licenses/>.
  *
  * PHP version 5
- * @copyright  Cliff Parnitzky 2012
+ * @copyright  Cliff Parnitzky 2012-2015
  * @author     Cliff Parnitzky
  * @package    BackendLogs
  * @license    LGPL
@@ -30,7 +30,7 @@
 /**
  * Logfile configuration
  */
-$GLOBALS['TL_LOGFILES']['logfileError'] = array ('logfile' => '/system/logs/error.log', 'rows' => 30);
+$GLOBALS['TL_LOGFILES']['logfileError'] = array ('logfile' => '/system/logs/error.log', 'rows' => 2500);
 $GLOBALS['TL_LOGFILES']['logfileEmail'] = array ('logfile' => '/system/logs/email.log', 'rows' => 30);
 // add more of these configs to localconfig.php (will be sorted by key)
 
@@ -39,8 +39,8 @@ $GLOBALS['TL_LOGFILES']['logfileEmail'] = array ('logfile' => '/system/logs/emai
  */
 foreach ($GLOBALS["TL_LOGFILES"] as $key=>$config) {
 	$GLOBALS['BE_MOD']['logfiles'][$key] = array(
-		'callback' => 'ModuleLogs',
-		'icon'	 => 'system/modules/BackendLogs/html/logfile.png'
+		'callback' => '\BackendLogs\ModuleBackendLogs',
+		'icon'	 => 'system/modules/BackendLogs/assets/icon.png'
 	);
 }
 ksort($GLOBALS['BE_MOD']['logfiles']);
