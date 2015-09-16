@@ -26,25 +26,33 @@ Compatibility
 -------------
 
 - min. Contao version: >= 3.2.0
-- max. Contao version: <  3.5.0
+- max. Contao version: <  3.6.0
 
 
 Dependency
 ----------
 
-- There are no dependencies to other extensions, that have to be installed.
+There are no dependencies to other extensions, that have to be installed.
 
 
 Additional configuration
 ------------------------
 
-Add to `system/config/localconfig.php`
-	$GLOBALS['TL_LOGFILES']['logfileMylog'] = array ('logfile' => '/system/logs/mylog.log', 'rows' => 30);
+Add an additional logfile configuration to `system/config/localconfig.php` :
 
-Add to `system/config/langconfig.php`
-	// Add additional logfile config translations
-	if ($GLOBALS['TL_LANGUAGE'] == 'de') {
-		$GLOBALS['TL_LANG']['MOD']['logfileMylog'] = "Mein Logfile";
-	} elseif ($GLOBALS['TL_LANGUAGE'] == 'en') {
-		$GLOBALS['TL_LANG']['MOD']['logfileMylog'] = "My logfile";
-	}
+```php
+$GLOBALS['TL_LOGFILES']['logfileMylog'] = array ('logfile' => '/system/logs/mylog.log', 'rows' => 30);
+```
+
+Add additional logfile config translations to `system/config/langconfig.php` :
+
+```php
+if ($GLOBALS['TL_LANGUAGE'] == 'de')
+{
+    $GLOBALS['TL_LANG']['MOD']['logfileMylog'] = "Mein Logfile";
+}
+elseif ($GLOBALS['TL_LANGUAGE'] == 'en')
+{
+    $GLOBALS['TL_LANG']['MOD']['logfileMylog'] = "My logfile";
+}
+```
